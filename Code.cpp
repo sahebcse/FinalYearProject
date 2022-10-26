@@ -28,21 +28,29 @@ vector<vector<int>> convert( vector<vector<int>> a)
 }
 
 
-void bfs(vector<vector<int>> &t ,vector<int> &sol)
+void stackwise(vector<vector<int>> &t ,vector<int> &sol)
 {
       vector<vector<int>> adj = convert(t);
       int v=t.size();
 
-      queue<int>q;
+      stack<int>st1,st2;
         vector<bool>visited(v+1,false);
 
-        q.push(0);
+        st1.push(0);
         visited[0]=true;
 
-        while(!q.empty())
-        {
-            int t=q.front();
-            q.pop();
+        while(!st1.empty())
+        {   
+            if(st2.empty()){
+                while(!st1.empty()){
+                    st2.push(st1.top());
+                    st1.pop();
+                }
+            }
+        
+            while(!st2.empty()){
+                    int t=st2.top();
+            st2.pop();
             sol.push_back(t);
 
             for(auto u:adj[t])
@@ -50,13 +58,14 @@ void bfs(vector<vector<int>> &t ,vector<int> &sol)
                 if(!visited[u])
                 {
                     visited[u]=true;
-                    q.push(u);
+                    st1.push(u);
                 }
             } 
+            }
+            
+            
         } 
 }
-
-
 int main()
 {
     //psize= number of processors
@@ -150,7 +159,7 @@ int main()
 
    vector<int> bfsPath;
 
-   bfs(t,bfsPath);
+   stackwise(t,bfsPath);
 
    cout<<"A possible path By using BFS traversal will be :"<<endl;
    print(bfsPath);
