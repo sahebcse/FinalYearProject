@@ -27,6 +27,33 @@ vector<vector<int>> convert( vector<vector<int>> a)
     return adjList;
 }
 
+void bfs(vector<vector<int>> &t ,vector<int> &sol)
+{
+      vector<vector<int>> adj = convert(t);
+      int v=t.size();
+
+      queue<int>q;
+        vector<bool>visited(v+1,false);
+
+        q.push(0);
+        visited[0]=true;
+
+        while(!q.empty())
+        {
+            int t=q.front();
+            q.pop();
+            sol.push_back(t);
+
+            for(auto u:adj[t])
+            {
+                if(!visited[u])
+                {
+                    visited[u]=true;
+                    q.push(u);
+                }
+            } 
+        } 
+}
 
 void stackwise(vector<vector<int>> &t ,vector<int> &sol)
 {
@@ -160,11 +187,15 @@ int main()
    // Stack wise Implementation by Jeevan Kumar (2019UGCS061R)
 
    vector<int> bfsPath;
-
-   stackwise(t,bfsPath);
+   vector<int> stackwisepath;
+   bfs(t,bfsPath);
+   stackwise(t,stackwisepath);
 
    cout<<"A possible path By using BFS traversal will be :"<<endl;
    print(bfsPath);
+   cout<<endl;
+   cout<<"A possible path By using Stackwise traversal is:"<<endl;
+   print(stackwisepath);
 
 
    // Heap Based traversal Implementation by  ---------
