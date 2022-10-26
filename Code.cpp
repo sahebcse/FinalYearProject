@@ -183,20 +183,22 @@ int main()
    // Path will be stored in different vectors for different algorithms
 
    // BFS traversal Implementation by Saheb Kumar ( 2019UGCS009R)
-    
-   // Stack wise Implementation by Jeevan Kumar (2019UGCS061R)
-
    vector<int> bfsPath;
-   vector<int> stackwisepath;
    bfs(t,bfsPath);
-   stackwise(t,stackwisepath);
-
+    
    cout<<"A possible path By using BFS traversal will be :"<<endl;
    print(bfsPath);
    cout<<endl;
+
+   // Stack wise Implementation by Jeevan Kumar (2019UGCS061R)
+
+   
+   vector<int> stackwisepath;   
+   stackwise(t,stackwisepath);
+   
    cout<<"A possible path By using Stackwise traversal is:"<<endl;
    print(stackwisepath);
-
+   cout<<endl;
 
    // Heap Based traversal Implementation by  ---------
 
