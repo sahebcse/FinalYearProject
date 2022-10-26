@@ -27,7 +27,6 @@ vector<vector<int>> convert( vector<vector<int>> a)
     return adjList;
 }
 
-
 void bfs(vector<vector<int>> &t ,vector<int> &sol)
 {
       vector<vector<int>> adj = convert(t);
@@ -56,7 +55,44 @@ void bfs(vector<vector<int>> &t ,vector<int> &sol)
         } 
 }
 
+void stackwise(vector<vector<int>> &t ,vector<int> &sol)
+{
+      vector<vector<int>> adj = convert(t);
+      int v=t.size();
 
+      stack<int>st1,st2;
+        vector<bool>visited(v+1,false);
+
+        st1.push(0);
+        visited[0]=true;
+
+        while(!st1.empty())
+        {   
+            if(st2.empty()){
+                while(!st1.empty()){
+                    st2.push(st1.top());
+                    st1.pop();
+                }
+            }
+        
+            while(!st2.empty()){
+                    int t=st2.top();
+            st2.pop();
+            sol.push_back(t);
+
+            for(auto u:adj[t])
+            {
+                if(!visited[u])
+                {
+                    visited[u]=true;
+                    st1.push(u);
+                }
+            } 
+            }
+            
+            
+        } 
+}
 int main()
 {
     //psize= number of processors
@@ -147,13 +183,19 @@ int main()
    // Path will be stored in different vectors for different algorithms
 
    // BFS traversal Implementation by Saheb Kumar ( 2019UGCS009R)
+    
+   // Stack wise Implementation by Jeevan Kumar (2019UGCS061R)
 
    vector<int> bfsPath;
-
+   vector<int> stackwisepath;
    bfs(t,bfsPath);
+   stackwise(t,stackwisepath);
 
    cout<<"A possible path By using BFS traversal will be :"<<endl;
    print(bfsPath);
+   cout<<endl;
+   cout<<"A possible path By using Stackwise traversal is:"<<endl;
+   print(stackwisepath);
 
 
    // Heap Based traversal Implementation by  ---------
