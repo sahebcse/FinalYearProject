@@ -9,6 +9,45 @@ void print(vector<int> v)
     cout << endl;
 }
 
+
+vector<int> topSortProcess(vector<vector<int>>& matrix){
+    int process=matrix.size();
+    vector<vector<int>> adj(process, vector<int>());  //directed graph for process priority
+    vector<int> ind(process,0);// dependent process
+    queue<int> cpu; //queue for maintaing remaining process
+    vector<int> processTime;
+
+    for(int i=0;i<process;i++){
+        for(int j=0;j<process;j++){
+
+            if(i!=j){
+                if(matrix[i][j]==1){
+                    adj[i].push_back(j);
+                    ind[j]++;
+                }
+            }
+        }
+    }
+
+
+    for(int i=0;i<process;i++)if(ind[i]==0)cpu.push(i);
+
+    while(!cpu.empty()){
+        int currentProcess=cpu.front();
+        cpu.pop();
+        processTime.push_back(currentProcess);
+
+        for(auto childProcess:adj[currentProcess]){
+            ind[childProcess]--;
+            if(ind[childProcess]==0)cpu.push(childProcess);
+        }
+    }
+
+    return processTime;
+
+}
+
+
 vector<vector<int>> convert(vector<vector<int>> a)
 {
     // converts from adjacency matrix to adjacency list
