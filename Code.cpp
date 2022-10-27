@@ -9,51 +9,42 @@ void print(vector<int> v)
     cout<<endl;
 }
 
-vector<vector<int>> convert( vector<vector<int>> a)
-{
-    // converts from adjacency matrix to adjacency list
-    vector<vector<int>> adjList(a.size());
-    for (int i = 0; i < a.size(); i++)
-    {
 
-        for (int j = 0; j < a[i].size(); j++)
-        {
-            if (a[i][j] == 1)
-            {
-                adjList[i].push_back(j);
+vector<int> topSortProcess(vector<vector<int>>& matrix){
+    int process=matrix.size();
+    vector<vector<int>> adj(process, vector<int>());  //directed graph for process priority
+    vector<int> ind(process,0);// dependent process
+    queue<int> cpu; //queue for maintaing remaining process
+    vector<int> processTime;
+
+    for(int i=0;i<process;i++){
+        for(int j=0;j<process;j++){
+
+            if(i!=j){
+                if(matrix[i][j]==1){
+                    adj[i].push_back(j);
+                    ind[j]++;
+                }
             }
         }
     }
-    return adjList;
-}
 
 
-void bfs(vector<vector<int>> &t ,vector<int> &sol)
-{
-      vector<vector<int>> adj = convert(t);
-      int v=t.size();
+    for(int i=0;i<process;i++)if(ind[i]==0)cpu.push(i);
 
-      queue<int>q;
-        vector<bool>visited(v+1,false);
+    while(!cpu.empty()){
+        int currentProcess=cpu.front();
+        cpu.pop();
+        processTime.push_back(currentProcess);
 
-        q.push(0);
-        visited[0]=true;
+        for(auto childProcess:adj[currentProcess]){
+            ind[childProcess]--;
+            if(ind[childProcess]==0)cpu.push(childProcess);
+        }
+    }
 
-        while(!q.empty())
-        {
-            int t=q.front();
-            q.pop();
-            sol.push_back(t);
+    return processTime;
 
-            for(auto u:adj[t])
-            {
-                if(!visited[u])
-                {
-                    visited[u]=true;
-                    q.push(u);
-                }
-            } 
-        } 
 }
 
 
@@ -101,70 +92,11 @@ int main()
     };
 
 
-    t=sampleT;
+    vector<int> processTime = topSortProcess(sampleT);
 
-   /*
-    //for taking input of t
-    for(int i = 0; i < tsize; i++){
-        int u , v ;
-        cin >> u >> v ;
-        t[u][v] = 1 ;
-    }
-
-   */
+    print(processTime);
 
 
-
-    //Data will be a 2D Matrix used to store time required to run each task on different processor
-
-    vector<vector<int>> data(tsize,vector<int>(psize,0)) ;
-
-    vector<vector<int>> sampleData=
-    {
-    {11,12,13},
-    {15,16,18},
-    {9,11,12},
-    {16,11,12},
-    {19,13,16},
-    {7,8,12}
-    };
-
-    data=sampleData;
-
-  /*
-    //for taking input of data
-    for(int i = 0; i < tsize; i++){
-            for(int j=0;j<psize;j++)
-            {
-                int u  ;
-                cin >> u   ;
-                data[i][j] = u ;
-            }
-    }
-
-   */
-
-   // Path will be stored in different vectors for different algorithms
-
-   // BFS traversal Implementation by Saheb Kumar ( 2019UGCS009R)
-
-   vector<int> bfsPath;
-
-   bfs(t,bfsPath);
-
-   cout<<"A possible path By using BFS traversal will be :"<<endl;
-   print(bfsPath);
-
-
-   // Heap Based traversal Implementation by  ---------
-
-   // Topological sorting Based traversal Implementation by  ---------
-
-   // DFS Based traversal Implementation by  ---------
-
-   // Multi Level Queue (MLQ) Based traversal Implementation by  ---------
-
-   // Level Wise Stack (LWS) Based traversal Implementation by  ---------
 
 
 
