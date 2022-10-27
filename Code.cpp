@@ -140,6 +140,36 @@ int heapApproach(vector<vector<int>> &t, vector<vector<int>> &time, int psize, v
 
     return ans;
 }
+void reversebfs(vector<vector<int>> &t ,vector<int> &sol)
+{
+      vector<vector<int>> adj = convert(t);
+      int v=t.size();
+
+      queue<int>q;
+        vector<bool>visited(v+1,false);
+
+        q.push(0);
+        visited[0]=true;
+
+        while(!q.empty())
+        {
+            int t=q.front();
+            q.pop();
+            sol.push_back(t);
+          
+          int x = adj[t].size();
+          
+            for(int i=x-1;i>=0;i--)
+            {
+                if(!visited[adj[t][i]])
+                {
+                    visited[adj[t][i]]=true;
+                    q.push(adj[t][i]);
+                }
+            } 
+        } 
+}
+
 int main()
 {
     // psize= number of processors
@@ -249,6 +279,15 @@ int main()
     for (auto &it : processorSequence)
         cout << "For process = " << it.first << " processor used = " << it.second << endl;
 
+    // Reverse BFS traversal Implementation by Suraj kumar (2019UGCS027R)
+    
+  vector<int> revbfsPath;
+  reversebfs(t,revbfsPath);
+  
+  cout<<"A possible path By using Reverse BFS traversal will be :"<<endl;
+  print(revbfsPath);
+  cout<<endl;
+    
     // Topological sorting Based traversal Implementation by  ---------
 
     // DFS Based traversal Implementation by  ---------
