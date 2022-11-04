@@ -9,6 +9,45 @@ void print(vector<int> v)
     cout << endl;
 }
 
+
+vector<int> topSortProcess(vector<vector<int>>& matrix){
+    int process=matrix.size();
+    vector<vector<int>> adj(process, vector<int>());  //directed graph for process priority
+    vector<int> ind(process,0);// dependent process
+    queue<int> cpu; //queue for maintaing remaining process
+    vector<int> processTime;
+
+    for(int i=0;i<process;i++){
+        for(int j=0;j<process;j++){
+
+            if(i!=j){
+                if(matrix[i][j]==1){
+                    adj[i].push_back(j);
+                    ind[j]++;
+                }
+            }
+        }
+    }
+
+
+    for(int i=0;i<process;i++)if(ind[i]==0)cpu.push(i);
+
+    while(!cpu.empty()){
+        int currentProcess=cpu.front();
+        cpu.pop();
+        processTime.push_back(currentProcess);
+
+        for(auto childProcess:adj[currentProcess]){
+            ind[childProcess]--;
+            if(ind[childProcess]==0)cpu.push(childProcess);
+        }
+    }
+
+    return processTime;
+
+}
+
+
 vector<vector<int>> convert(vector<vector<int>> a)
 {
     // converts from adjacency matrix to adjacency list
@@ -140,36 +179,6 @@ int heapApproach(vector<vector<int>> &t, vector<vector<int>> &time, int psize, v
 
     return ans;
 }
-void reversebfs(vector<vector<int>> &t ,vector<int> &sol)
-{
-      vector<vector<int>> adj = convert(t);
-      int v=t.size();
-
-      queue<int>q;
-        vector<bool>visited(v+1,false);
-
-        q.push(0);
-        visited[0]=true;
-
-        while(!q.empty())
-        {
-            int t=q.front();
-            q.pop();
-            sol.push_back(t);
-          
-          int x = adj[t].size();
-          
-            for(int i=x-1;i>=0;i--)
-            {
-                if(!visited[adj[t][i]])
-                {
-                    visited[adj[t][i]]=true;
-                    q.push(adj[t][i]);
-                }
-            } 
-        } 
-}
-
 int main()
 {
     // psize= number of processors
@@ -251,6 +260,15 @@ int main()
 
      */
 
+     //Topological wise implementation by Aryan Singh(2019UGCS007R)
+
+      vector<int> processTime;
+      processTime = topSortProcess(sampleT);
+     cout << "A possible path By using Topological traversal will be :" << endl;
+
+      print(processTime);
+       cout << endl;
+
     // Path will be stored in different vectors for different algorithms
 
     // BFS traversal Implementation by Saheb Kumar ( 2019UGCS009R)
@@ -279,15 +297,6 @@ int main()
     for (auto &it : processorSequence)
         cout << "For process = " << it.first << " processor used = " << it.second << endl;
 
-    // Reverse BFS traversal Implementation by Suraj kumar (2019UGCS027R)
-    
-  vector<int> revbfsPath;
-  reversebfs(t,revbfsPath);
-  
-  cout<<"A possible path By using Reverse BFS traversal will be :"<<endl;
-  print(revbfsPath);
-  cout<<endl;
-    
     // Topological sorting Based traversal Implementation by  ---------
 
     // DFS Based traversal Implementation by  ---------
