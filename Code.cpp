@@ -206,8 +206,8 @@ void reversebfs(vector<vector<int>> &t ,vector<int> &sol)
                     visited[adj[t][i]]=true;
                     q.push(adj[t][i]);
                 }
-            } 
-        } 
+            }
+        }
 }
 
 
@@ -292,6 +292,25 @@ int main()
 
      */
 
+     // Path will be stored in different vectors for different algorithms
+
+    // BFS traversal Implementation by Saheb Kumar ( 2019UGCS009R)
+    vector<int> bfsPath;
+    bfs(t, bfsPath);
+
+    cout << "A possible path by Saheb Kumar ( 2019UGCS009R) By using BFS traversal will be :" << endl;
+    print(bfsPath);
+    cout << endl;
+
+     // Reverse BFS traversal Implementation by Suraj kumar (2019UGCS027R)
+
+  vector<int> revbfsPath;
+  reversebfs(t,revbfsPath);
+
+  cout<<"A possible path by Suraj kumar (2019UGCS027R) By using Reverse BFS traversal will be :"<<endl;
+  print(revbfsPath);
+  cout<<endl;
+
      //Topological wise implementation by Aryan Singh(2019UGCS007R)
 
       vector<int> processTime;
@@ -301,15 +320,7 @@ int main()
       print(processTime);
        cout << endl;
 
-    // Path will be stored in different vectors for different algorithms
 
-    // BFS traversal Implementation by Saheb Kumar ( 2019UGCS009R)
-    vector<int> bfsPath;
-    bfs(t, bfsPath);
-
-    cout << "A possible path by Saheb Kumar ( 2019UGCS009R) By using BFS traversal will be :" << endl;
-    print(bfsPath);
-    cout << endl;
 
     // Stack wise Implementation by Jeevan Kumar (2019UGCS061R)
 
@@ -329,16 +340,9 @@ int main()
     for (auto &it : processorSequence)
         cout << "For process = " << it.first << " processor used = " << it.second << endl;
 
-  
-    
-  // Reverse BFS traversal Implementation by Suraj kumar (2019UGCS027R)
 
-  vector<int> revbfsPath;
-  reversebfs(t,revbfsPath);
 
-  cout<<"A possible path by Suraj kumar (2019UGCS027R) By using Reverse BFS traversal will be :"<<endl;
-  print(revbfsPath);
-  cout<<endl; 
+
 
     return 0;
 }
