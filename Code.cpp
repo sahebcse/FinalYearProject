@@ -9,6 +9,7 @@ void print(vector<int> v)
     cout << endl;
 }
 
+ 
 vector<int> topSortProcess(vector<vector<int>> &matrix)
 {
     int process = matrix.size();
@@ -26,6 +27,7 @@ vector<int> topSortProcess(vector<vector<int>> &matrix)
             {
                 if (matrix[i][j] == 1)
                 {
+ 
                     adj[i].push_back(j);
                     ind[j]++;
                 }
@@ -33,6 +35,7 @@ vector<int> topSortProcess(vector<vector<int>> &matrix)
         }
     }
 
+ 
     for (int i = 0; i < process; i++)
         if (ind[i] == 0)
             cpu.push(i);
@@ -48,12 +51,15 @@ vector<int> topSortProcess(vector<vector<int>> &matrix)
             ind[childProcess]--;
             if (ind[childProcess] == 0)
                 cpu.push(childProcess);
+ 
         }
     }
 
     return processTime;
+ 
 }
 
+ 
 vector<vector<int>> convert(vector<vector<int>> a)
 {
     // converts from adjacency matrix to adjacency list
@@ -71,7 +77,6 @@ vector<vector<int>> convert(vector<vector<int>> a)
     }
     return adjList;
 }
-
 void bfs(vector<vector<int>> &t, vector<int> &sol)
 {
     vector<vector<int>> adj = convert(t);
@@ -102,7 +107,7 @@ void bfs(vector<vector<int>> &t, vector<int> &sol)
 
 void stackwise(vector<vector<int>> &t, vector<int> &sol)
 {
-    vector<vector<int>> adj = convert(t);
+    vector<vector<int>> adj = convert(t); 
     int v = t.size();
 
     stack<int> st1, st2;
@@ -220,6 +225,7 @@ int heapApproach(vector<vector<int>> &t, vector<vector<int>> &time, int psize, v
     return ans;
 }
 
+ 
 void reversebfs(vector<vector<int>> &t, vector<int> &sol)
 {
     vector<vector<int>> adj = convert(t);
@@ -250,6 +256,7 @@ void reversebfs(vector<vector<int>> &t, vector<int> &sol)
     }
 }
 
+ 
 int main()
 {
     // psize= number of processors
@@ -327,7 +334,7 @@ int main()
               }
       }
      */
-
+ 
     // Topological wise implementation by Aryan Singh(2019UGCS007R)
 
     vector<int> processTime;
@@ -336,6 +343,7 @@ int main()
 
     print(processTime);
     cout << endl;
+ 
 
     // Path will be stored in different vectors for different algorithms
 
@@ -361,6 +369,7 @@ int main()
     vector<pair<int, int>> processorSequence;
     vector<int> processOrder;
 
+ 
     int heapTime = heapApproach(sampleT, sampleData, psize, processorSequence, processOrder);
     cout << "Time taken to complete task using heap based approach = " << heapTime << " //implemented by Sahil Gupta (2019UGCS003R)" << endl;
     cout << "Order of execution of process" << endl;
@@ -379,6 +388,7 @@ int main()
     cout << "A possible path by Suraj kumar (2019UGCS027R) By using Reverse BFS traversal will be :" << endl;
     print(revbfsPath);
     cout << endl;
+ 
 
     return 0;
 }
